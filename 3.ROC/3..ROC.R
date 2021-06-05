@@ -1,0 +1,10 @@
+install.packages("ROCR")
+library(ROCR)
+mydata=read.table("trainroc.txt",sep="\t",header=T)
+View(mydata)
+# predictions is the risk score, labels is the status
+pred<-prediction(mydata$predictions,mydata$labels) 
+perf<-performance(pred,measure = "tpr",x.measure = "fpr")
+plot(perf,col=rainbow(10))
+auc <- performance(pred,'auc')
+auc=unlist(slot(auc,"y.values"))
